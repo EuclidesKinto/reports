@@ -16,6 +16,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class ReportExport implements
     FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping, WithColumnFormatting
 {
+    public function __construct(
+        public string $startdate,
+        public string $enddate
+    ){}
 
     public function styles(Worksheet $sheet): array
     {
@@ -39,7 +43,7 @@ class ReportExport implements
     */
     public function collection()
     {
-        return User::all();
+        return User::whereBetween('created_at', [$this->startdate, $this->enddate])->get();
     }
 
     public function map($user): array

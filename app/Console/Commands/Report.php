@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Exports\ReportExport;
 use Illuminate\Console\Command;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Report extends Command
 {
@@ -11,7 +13,7 @@ class Report extends Command
      *
      * @var string
      */
-    protected $signature = 'report {startdate?} {enddate?}';
+    protected $signature = 'report {startdate} {enddate}';
 
     /**
      * The console command description.
@@ -25,6 +27,7 @@ class Report extends Command
      */
     public function handle()
     {
+        Excel::store(new ReportExport(), 'report.xlsx', 'public');
         return Command::SUCCESS;
     }
 }
